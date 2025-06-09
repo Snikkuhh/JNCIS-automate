@@ -8,9 +8,9 @@
         - name: Run show policies
           junipernetworks.junos.junos_command:
             commands:
-              - show route protocol bgp extensive
-          register: bgp_routes 
+              - show route 192.168.100.0/24 protocol bgp
+          register: route_check
             
         - name: Display BGP routes
           debug:
-            var: bgp_output.stdout_lines
+            var: route_check.stdout_lines
