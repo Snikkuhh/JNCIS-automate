@@ -14,3 +14,4 @@
     - name: Display STP state
       debug:
         var: stp_output.stdout_lines
+
