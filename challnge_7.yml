@@ -21,8 +21,10 @@
           junipernetworks.junos.junos_config:
             lines:
               - set policy-options community CUST-100 members 64512:100
-            confirm_commit: true
-            check_commit: true
+          when: inventory_hostname == 'vMX1'
+      
+        - name: Commit config on vMX1
+          junipernetworks.junos.junos_commit:
           when: inventory_hostname == 'vMX1'
 
         - name: Configure community match vMX1
