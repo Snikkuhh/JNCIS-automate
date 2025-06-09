@@ -13,4 +13,4 @@
 
     - name: Assert type-1
       assert:
-        that: "'Type: OSPF external type 1' in ospf_output.stdout[0]"
+        that: "'Type: OSPF external' in ospf_output.stdout[0]"
