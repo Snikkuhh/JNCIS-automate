@@ -9,8 +9,3 @@
           junipernetworks.junos.junos_command:
             commands:
               - show route protocol ospf
-          register: redis_output
-
-        - name: Display result
-          debug:
-            var: redis_output.stdout_lines
