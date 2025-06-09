@@ -12,6 +12,10 @@
           - show route 192.168.100.0/24 detail
       register: bgp_output
 
+    - name: Display result
+      debug:
+        var: bgp_output.stdout_lines
+
     - name: Assert local preference
       assert:
         that: "'Localpref: 200' in bgp_output.stdout[0]"

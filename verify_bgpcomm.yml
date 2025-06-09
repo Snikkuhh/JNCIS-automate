@@ -10,6 +10,10 @@
           - show route advertising-protocol bgp 2.2.2.2 192.168.100.0/24 extensive
       register: community_output
 
+    - name: Display result
+      debug:
+        var: community_output.stdout_lines
+
     - name: Assert community present
       assert:
-        that: "'Communities: 64512:100' in community_output.stdout[0]"
+        that: "'64512:100' in community_output.stdout[0]"

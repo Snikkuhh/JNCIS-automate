@@ -11,6 +11,10 @@
           - show route protocol ospf 10.10.50.0/24 detail
       register: ospf_output
 
+    - name: Display result
+      debug:
+        var: ospf_output.stdout_lines
+
     - name: Assert type-1
       assert:
-        that: "'Type: OSPF external' in ospf_output.stdout[0]"
+        that: "'external type 1' in ospf_output.stdout[0]"
