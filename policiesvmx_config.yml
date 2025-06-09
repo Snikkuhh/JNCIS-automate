@@ -30,7 +30,7 @@
     - name: Configure STP vQFX
       junipernetworks.junos.junos_config:
         lines:
-          - set protocols spanning-tree
+          - set protocols rstp
           - set interfaces xe-0/0/1 unit 0 family ethernet-switching interface-mode trunk
           - set interfaces xe-0/0/2 unit 0 family ethernet-switching interface-mode trunk 
       when: inventory_hostname in ['vQFX-1', 'vQFX-2']
