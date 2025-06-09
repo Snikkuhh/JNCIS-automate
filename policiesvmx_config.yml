@@ -1,0 +1,29 @@
+---
+- name: Configure policies vMXs
+  hosts: all
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    
+    - name: Configure policy-options vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set policy-options prefix-list BLOCK_THIS 192.168.100.0/24
+          - set policy-options policy-statement FILTER-OUT term 1 from prefix-list BLOCK_THIS
+          - set policy-options policy-statement FILTER-OUT term 1 then reject
+          - set policy-options policy-statement FILTER-OUT term 1 then accept
+          - set protocols bgp group IBGP export FILTER-OUT
+      when: inventory_hostname == 'vMX1'
+
+    - name: Configure community tagging vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set policy-options community NO_EXPORT members no-export
+          - set policy-options policy-statement TAG_STATIC term 1 from route-filter 10.10.10.0/24 exact
+          - set policy-options policy-statement TAG_STATIC term 1 then community add NO_EXPORT
+          - set policy-options policy-statement TAG_STATIC term 1 then accept
+          - set protocols bgp group IBGP export TAG_STATIC
+          - set protocols bgp group IBGP multipath
+      when: inventory_hostname == 'vMX2'
+    
