@@ -9,11 +9,12 @@
     - name: Policy externals vMX1
       junipernetworks.junos.junos_config:
         lines:
-          - set policy-options policy-statement OSPF-REDIST term 1 from route-type external type-1
+          - set policy-options policy-statement OSPF-REDIST term 1 then external type type-1
           - set policy-options policy-statement OSPF-REDIST term 1 then accept
           - set policy-options policy-statement OSPF-REDIST term 2 then reject
           - set protocols ospf export OSPF-REDIST
           - set routing-options static route 10.10.50.0/24 next-hop 192.168.13.1
+          - set protocols ospf export OSPF-REDIST
       when: inventory_hostname == 'vMX1'
  
     - name: Match community vMX2
