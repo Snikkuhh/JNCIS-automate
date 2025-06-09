@@ -1,6 +1,6 @@
 ---
     - name: Verify
-      hosts: vMX2
+      hosts: vMX1
       connection: netconf
       gather_facts: no
       
