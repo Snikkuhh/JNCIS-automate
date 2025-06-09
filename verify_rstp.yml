@@ -1,0 +1,16 @@
+---
+- name: Verify STP state on vQFX switches
+  hosts: vqfx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Show STP interfaces
+      junipernetworks.junos.junos_command:
+        commands:
+          - show spanning-tree interface
+      register: stp_output
+
+    - name: Display STP state
+      debug:
+        var: stp_output.stdout_lines
