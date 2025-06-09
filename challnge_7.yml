@@ -1,0 +1,45 @@
+---
+    - name: route filtering vMXs
+      hosts: all
+      connection: netconf
+      gather_facts: no
+    
+      tasks:
+        
+        - name: Configure policy vMX2
+          junipernetworks.junos.junos_config:
+            lines:
+              - set policy-options prefix-list ALLOW_ONLY 10.10.10.0/24 10.10.20.0/24
+              - set policy-options policy-statement IN-FILTER term 1 from prefix-list ALLOW_ONLY
+              - set policy-options policy-statement IN-FILTER term 1 then accept
+              - set policy-options policy-statement IN-FILTER term 2 then reject
+              - set protocols bgp group IBGP import IN-FILTER
+          when: inventory_hostname == 'vMX2'
+
+        - name: Configure community match vMX1
+          junipernetworks.junos.junos_config:
+            lines:
+              - set policy-options community CUST-100 members 64512:100
+              - set policy-options policy-statement TAG-COMM term 1 from route-filter 192.168.100.0/24 exact
+              - set policy-options policy-statement TAG-COMM term 1 then community add CUST-100
+              - set policy-options policy-statement TAG-COMM term 1 then accept
+              - set protocols bgp group IBGP export TAG-COMM
+          when: inventory_hostname == 'vMX1'
+
+        - name: Community filtering inbound vMX2
+          junipernetworks.junos.junos_config:
+            lines:
+              - set policy-options policy-statement DROP-COMM term 1 from community CUST-100
+              - set policy-options policy-statement DROP-COMM term 1 then reject
+              - set policy-options policy-statement DROP-COMM term 2 then accept
+              - set protocols bgp group IBGP import DROP-COMM
+          when: inventory_hostname == 'vMX2'
+
+        - name: Redistribute static and connected in OSPF vMX1
+          junipernetworks.junos.junos_config:
+            lines:
+              - set policy-options policy-statement DROP-COMM term 1 from community CUST-100
+              - set policy-options policy-statement DROP-COMM term 1 then reject
+              - set policy-options policy-statement DROP-COMM term 2 then accept
+              - set protocols bgp group IBGP import DROP-COMM
+          when: inventory_hostname == 'vMX1'
