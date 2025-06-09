@@ -1,6 +1,6 @@
 ---
     - name: Verify policies community STP
-      hosts: all
+      hosts: 'vMX-1'
       connection: netconf
       gather_facts: no
     
@@ -9,8 +9,7 @@
           junipernetworks.junos.junos_command:
             commands:
               - show route 192.168.100.0/24 protocol bgp
-          register: route_output
-          when: inventory_hostname == 'vMX1'  
+          register: route_output 
             
         - name: Display result
           debug:
@@ -30,7 +29,7 @@
         - name: Show STP interfaces
           junipernetworks.junos.junos_command:
             commands:
-              - show spanning-tree interface
+              - show  interface
           register: stp_output
 
         - name: Display STP state

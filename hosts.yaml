@@ -23,14 +23,14 @@ all:
 
     vqfx:
       hosts:
-        vQFX-1:
+        vQFX1:
           ansible_host: 192.168.100.1
           ansible_user: lab
           ansible_password: lab123
           ansible_network_os: junos
           ansible_connection: netconf
 
-        vQFX-2:
+        vQFX2:
           ansible_host: 192.168.100.2
           ansible_user: lab
           ansible_password: lab123
