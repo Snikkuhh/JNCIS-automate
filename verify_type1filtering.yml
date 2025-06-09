@@ -1,6 +1,6 @@
 ---
 - name: Verify externals ospf
-  hosts: all
+  hosts: vQFX1
   connection: netconf
   gather_facts: no
 
