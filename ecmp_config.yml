@@ -1,0 +1,33 @@
+---
+- name: Configure ECMP with static routes
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: Configure ECMP interface IPs
+      junipernetworks.junos.junos_config:
+        lines: |
+          {% if inventory_hostname == 'vMX1' %}
+          set interfaces ge-0/0/3 unit 0 family inet address 192.168.13.1/30
+          {% elif inventory_hostname == 'vMX2' %}
+          set interfaces ge-0/0/3 unit 0 family inet address 192.168.13.2/30
+          {% endif %}
+        comment: "Add secondary ECMP path on ge-0/0/3"
+
+    - name: Configure static routes for ECMP
+      junipernetworks.junos.junos_config:
+        lines: |
+          {% if inventory_hostname == 'vMX1' %}
+          set routing-options static route 192.168.100.0/24 next-hop 192.168.12.2
+          set routing-options static route 192.168.100.0/24 next-hop 192.168.13.2
+          {% elif inventory_hostname == 'vMX2' %}
+          set routing-options static route 1.1.1.1/32 next-hop 192.168.12.1
+          set routing-options static route 1.1.1.1/32 next-hop 192.168.13.1
+          {% endif %}
+        comment: "Static ECMP route"
+
+    - name: Commit config
+      junipernetworks.junos.junos_commit:
+        confirm: 0

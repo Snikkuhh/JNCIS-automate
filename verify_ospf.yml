@@ -1,0 +1,16 @@
+---
+- name: Show OSPF neighbors
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Run show ospf neighbor
+      junipernetworks.junos.junos_command:
+        commands:
+          - show ospf neighbor
+      register: ospf_output
+
+    - name: Display result
+      debug:
+        var: ospf_output.stdout_lines

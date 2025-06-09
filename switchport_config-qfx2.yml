@@ -1,0 +1,16 @@
+---
+- name: Configure switching
+  hosts: vQFX-2 
+  gather_facts: no
+  tasks:
+    - name: Configure switchport access
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces xe-0/0/1 unit 0 family ethernet-switching interface-mode access
+          - set interfaces xe-0/0/1 unit 0 family ethernet-switching vlan members VLAN20
+
+    - name: configure switchport Trunk
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces xe-0/0/2 unit 0 family ethernet-switching interface-mode trunk
+          - set interfaces xe-0/0/2 unit 0 family ethernet-switching vlan members [VLAN10 VLAN20]

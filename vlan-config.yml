@@ -1,0 +1,11 @@
+---
+- name: Configure VLANs on Juniper device
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Configure VLAN 10
+      junipernetworks.junos.junos_config:
+        lines:
+          - set vlans VLAN10 vlan-id 10
+          - set interfaces ge-0/0/1 unit 0 family ethernet-switching vlan members VLAN10
+        comment: "VLAN automation via Ansible"

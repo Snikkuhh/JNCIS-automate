@@ -1,0 +1,56 @@
+---
+- name: Configure iBGP between vMX1 and vMX2
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: Configure router-id for vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 1.1.1.1
+      when: inventory_hostname == 'vMX1'
+
+    - name: Configure router-id for vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 2.2.2.2
+      when: inventory_hostname == 'vMX2'
+
+    - name: Set local AS on vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options autonomous-system 65000
+      when: inventory_hostname == 'vMX1'
+
+    - name: Configure iBGP on vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols bgp group IBGP type internal
+          - set protocols bgp group IBGP local-address 1.1.1.1
+          - set protocols bgp group IBGP neighbor 2.2.2.2 peer-as 65000
+      when: inventory_hostname == 'vMX1'
+
+    - name: Set local AS on vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options autonomous-system 65000
+      when: inventory_hostname == 'vMX2'
+
+    - name: Configure iBGP on vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols bgp group IBGP type internal
+          - set protocols bgp group IBGP local-address 2.2.2.2
+          - set protocols bgp group IBGP neighbor 1.1.1.1 peer-as 6500
+      when: inventory_hostname == 'vMX2'
+
+    - name: Configure policy-options vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set policy-options prefix-list ADVERTISE_STATIC 192.168.100.0/24
+          - set policy-options policy-statement EXPORT-STATIC term 1 from prefix-list ADVERTISE_STATIC
+          - set policy-options policy-statement EXPORT-STATIC term 1 then accept
+          - set protocols bgp group IBGP export EXPORT-STATIC
+      when: inventory_hostname == 'vMX1'

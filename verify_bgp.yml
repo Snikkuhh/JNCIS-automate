@@ -1,0 +1,17 @@
+---
+- name: Show BGP summary
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Run show ecmp route
+      junipernetworks.junos.junos_command:
+        commands:
+          - show bgp summary 
+          - show route protocol bgp
+      register: route_output
+
+    - name: Display result
+      debug:
+        var: route_output.stdout_lines
