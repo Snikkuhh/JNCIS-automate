@@ -33,4 +33,4 @@
           - set protocols spanning-tree
           - set interfaces xe-0/0/1 unit 0 family ethernet-switching interface-mode trunk
           - set interfaces xe-0/0/2 unit 0 family ethernet-switching interface-mode trunk 
-      when: inventory_hostname == 'vqfx'
+      when: inventory_hostname in ['vqfx1', 'vqfx2']
