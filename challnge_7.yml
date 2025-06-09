@@ -17,10 +17,15 @@
               - set protocols bgp group IBGP import IN-FILTER
           when: inventory_hostname == 'vMX2'
 
-        - name: Configure community match vMX1
+        - name: Define BGP community CUST-100
           junipernetworks.junos.junos_config:
             lines:
               - set policy-options community CUST-100 members 64512:100
+          when: inventory_hostname == 'vMX1'
+
+        - name: Configure community match vMX1
+          junipernetworks.junos.junos_config:
+            lines:
               - set policy-options policy-statement TAG-COMM term 1 from route-filter 192.168.100.0/24 exact
               - set policy-options policy-statement TAG-COMM term 1 then community add CUST-100
               - set policy-options policy-statement TAG-COMM term 1 then accept
