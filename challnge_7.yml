@@ -9,7 +9,8 @@
         - name: Configure policy vMX2
           junipernetworks.junos.junos_config:
             lines:
-              - set policy-options prefix-list ALLOW_ONLY 10.10.10.0/24 10.10.20.0/24
+              - set policy-options prefix-list ALLOW_ONLY 10.10.10.0/24 
+              - set policy-options prefix-list ALLOW_ONLY 10.10.20.0/24
               - set policy-options policy-statement IN-FILTER term 1 from prefix-list ALLOW_ONLY
               - set policy-options policy-statement IN-FILTER term 1 then accept
               - set policy-options policy-statement IN-FILTER term 2 then reject
