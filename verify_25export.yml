@@ -1,0 +1,17 @@
+---
+- name: Verify no /25+ exports
+  hosts: vMX1
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: Check exported OSPF routes
+      junipernetworks.junos.junos_command:
+        commands:
+          - show route protocol ospf
+      register: ospf_routes
+
+    - name: Assert no /25+
+      assert:
+        that: "'/25' not in ospf_routes.stdout[0]"

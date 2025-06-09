@@ -1,0 +1,16 @@
+---
+- name: Verify externals ospf
+  hosts: all
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Check OSPF routes
+      junipernetworks.junos.junos_command:
+        commands:
+          - show route protocol ospf 10.10.50.0/24 detail
+      register: ospf_output
+
+    - name: Assert type-1
+      assert:
+        that: "'Type: OSPF external type 1' in ospf_output.stdout[0]"

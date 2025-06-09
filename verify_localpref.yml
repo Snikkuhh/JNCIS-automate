@@ -1,0 +1,17 @@
+---
+- name: Verify BGP Local Preference
+  hosts: vMX2
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+  
+    - name: Show BGP route detail
+      junipernetworks.junos.junos_command:
+        commands:
+          - show route 192.168.100.0/24 detail
+      register: bgp_output
+
+    - name: Assert local preference
+      assert:
+        that: "'Localpref: 200' in bgp_output.stdout[0]"
