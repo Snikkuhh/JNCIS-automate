@@ -124,3 +124,23 @@ Redistribution van static en connected naar OSPF via export policy op vMX1
 🔍 Route met geblokkeerde community wordt niet ontvangen op vMX2
 
 🔍 OSPF redistributed routes zichtbaar op vQFX
+
+🚧 Challenge 8: Routing Policy Manipulation + OSPF Type Filtering
+
+Doel:
+
+OSPF external LSA filtering
+
+Local preference manipuleren
+
+Check op Type-1 redistributie
+
+Status:
+
+🔴 OSPF metric-type niet configureerbaar via policy (Junos limiet)
+
+✅ Redistribute policy werkt
+
+✅ Routes zichtbaar in OSPF RIB
+
+🟠 Geen externe LSAs zichtbaar in database — platformbeperking mogelijk
