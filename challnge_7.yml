@@ -24,12 +24,12 @@
               - set policy-options policy-statement TAG-COMM term 1 from route-filter 192.168.100.0/24 exact
               - set policy-options policy-statement TAG-COMM term 1 then community add CUST-100
               - set policy-options policy-statement TAG-COMM term 1 then accept
-              - set protocols bgp group IBGP export TAG-COMM
           when: inventory_hostname == 'vMX1'
 
         - name: Community filtering inbound vMX2
           junipernetworks.junos.junos_config:
             lines:
+              - set policy-options community CUST-100 members 64512:100
               - set policy-options policy-statement DROP-COMM term 1 from community CUST-100
               - set policy-options policy-statement DROP-COMM term 1 then reject
               - set policy-options policy-statement DROP-COMM term 2 then accept
@@ -39,8 +39,10 @@
         - name: Redistribute static and connected in OSPF vMX1
           junipernetworks.junos.junos_config:
             lines:
-              - set policy-options policy-statement DROP-COMM term 1 from community CUST-100
-              - set policy-options policy-statement DROP-COMM term 1 then reject
-              - set policy-options policy-statement DROP-COMM term 2 then accept
-              - set protocols bgp group IBGP import DROP-COMM
+              - set protocols ospf area 0.0.0.0 interface lo0.0 passive
+              - set policy-options policy-statement REDIST term 1 from protocol static
+              - set policy-options policy-statement REDIST term 1 then accept
+              - set policy-options policy-statement REDIST term 2 from protocol direct
+              - set policy-options policy-statement REDIST term 2 then accept
+              - set protocols ospf export REDIST
           when: inventory_hostname == 'vMX1'
