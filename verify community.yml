@@ -1,0 +1,17 @@
+---
+    - name: Verify policies community STP
+      hosts: 'vmx'
+      connection: netconf
+      gather_facts: no
+    
+      tasks:
+
+        - name: Show detailed BGP route
+          junipernetworks.junos.junos_command:
+            commands:
+              - show route 10.10.10.0/24 extensive
+          register: route_details
+
+        - name: Display community info
+          debug:
+            var: route_details.stdout_lines
