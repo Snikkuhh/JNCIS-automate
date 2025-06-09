@@ -1,0 +1,16 @@
+---
+    - name: Verify
+      hosts: vMX2
+      connection: netconf
+      gather_facts: no
+
+      tasks:
+        - name: Show routes learned via BGP
+          junipernetworks.junos.junos_command:
+            commands:
+              - show route protocol bgp receive-protocol bgp 1.1.1.1  
+          register: route_output
+    
+        - name: Display result
+          debug:
+            var: route_output.stdout_lines

@@ -1,0 +1,16 @@
+---
+    - name: Verify
+      hosts: vMX1
+      connection: netconf
+      gather_facts: no
+
+      tasks:
+        - name: Show BGP route with community
+          junipernetworks.junos.junos_command:
+            commands:
+              - show route advertising-protocol bgp 2.2.2.2 192.168.100.0/24 extensive
+            register: bgproute_output
+
+        - name: Display result
+          debug:
+            var: bgproute_output.stdout_lines

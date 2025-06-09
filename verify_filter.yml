@@ -1,0 +1,16 @@
+---
+    - name: Verify
+      hosts: vMX2
+      connection: netconf
+      gather_facts: no
+
+      tasks:
+        - name: Check if route with blocked community is received
+          junipernetworks.junos.junos_command:
+            commands:
+              - show route protocol bgp receive-protocol bgp 1.1.1.1 192.168.100.0/24
+          register: filter_output
+
+        - name: Display result
+          debug:
+            var: filter_output.stdout_lines
