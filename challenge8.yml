@@ -12,7 +12,6 @@
           - set policy-options policy-statement OSPF-REDIST term 1 from route-type external type-1
           - set policy-options policy-statement OSPF-REDIST term 1 then accept
           - set policy-options policy-statement OSPF-REDIST term 2 then reject
-          - set policy-options policy-statement OSPF-REDIST term 1 then external type type-1
           - set protocols ospf export OSPF-REDIST
           - set routing-options static route 10.15.0.0/24 next-hop 192.168.13.1
       when: inventory_hostname == 'vMX1'
