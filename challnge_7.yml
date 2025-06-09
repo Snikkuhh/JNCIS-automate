@@ -20,14 +20,6 @@
               - set protocols bgp group IBGP import IN-FILTER
           when: inventory_hostname == 'vMX2'
 
-        - name: Define BGP community CUST-100
-          junipernetworks.junos.junos_config:
-            lines:
-              - set policy-options community CUST-100 members 64512:100
-          when: inventory_hostname == 'vMX1'
-
-        - name: Commit CUST-100 community config
-          junipernetworks.junos.junos_commit:
           when: inventory_hostname == 'vMX1'
 
         - name: Configure community match vMX1
