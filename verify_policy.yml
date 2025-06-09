@@ -1,6 +1,6 @@
 ---
     - name: Verify policies
-      hosts: 'vMX-1'
+      hosts: 'vMX1'
       connection: netconf
       gather_facts: no
     
