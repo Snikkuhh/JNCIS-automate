@@ -1,6 +1,6 @@
 ---
     - name: Verify policies
-      hosts: 'vMX1'
+      hosts: vmx
       connection: netconf
       gather_facts: no
     
@@ -8,9 +8,9 @@
         - name: Run show policies
           junipernetworks.junos.junos_command:
             commands:
-              - show route 192.168.100.0/24 protocol bgp
-          register: route_output 
+              - show route protocol bgp extensive
+          register: bgp_routes 
             
-        - name: Display result
+        - name: Display BGP routes
           debug:
-            var: route_output.stdout_lines
+            var: bgp_output.stdout_lines
