@@ -20,8 +20,6 @@
               - set protocols bgp group IBGP import IN-FILTER
           when: inventory_hostname == 'vMX2'
 
-          when: inventory_hostname == 'vMX1'
-
         - name: Configure community match vMX1
           junipernetworks.junos.junos_config:
             lines:
