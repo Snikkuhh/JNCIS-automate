@@ -3,6 +3,9 @@
       hosts: vmx
       connection: netconf
       gather_facts: no
+
+      collections: 
+        - junipernetworks.junos
     
       tasks:
         
@@ -22,8 +25,8 @@
             lines:
               - set policy-options community CUST-100 members 64512:100
           when: inventory_hostname == 'vMX1'
-      
-        - name: Commit config on vMX1
+
+        - name: Commit CUST-100 community config
           junipernetworks.junos.junos_commit:
           when: inventory_hostname == 'vMX1'
 
