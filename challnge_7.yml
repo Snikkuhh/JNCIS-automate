@@ -21,7 +21,6 @@
           junipernetworks.junos.junos_config:
             lines:
               - set policy-options community CUST-100 members 64512:100
-            lock: true
             confirm_commit: true
             check_commit: true
           when: inventory_hostname == 'vMX1'
