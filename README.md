@@ -144,3 +144,8 @@ Status:
 ✅ Routes zichtbaar in OSPF RIB
 
 🟠 Geen externe LSAs zichtbaar in database — platformbeperking mogelijk
+
+✅ Challenge 9 – OSPF Interface Types & Design Impact
+• Interfaces correct geconfigureerd op vMX en vQFX (broadcast + p2p)
+• Neighbor-verificatie succesvol met Ansible
+• OSPF database toont verwachte LSAs
