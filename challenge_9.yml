@@ -1,5 +1,5 @@
 ---
-- name: Challenge 9: OSPF interface types
+- name: Challenge 9 - OSPF interface types
   hosts: all
   connection: netconf
   gather_facts: no
