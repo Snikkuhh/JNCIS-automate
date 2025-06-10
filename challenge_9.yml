@@ -12,12 +12,6 @@
           - set protocols ospf area 1 interface ge-0/0/1.0 interface-type p2p
       when: inventory_hostname in ['vMX1', 'vQFX1']
 
-    - name: Configure Broadcast OSPF interface
-      junipernetworks.junos.junos_config:
-        lines:
-          - set protocols ospf area 1 interface ge-0/0/0.0
-      when: inventory_hostname in ['vMX1', 'vMX2']
-
     - name: Configure Non-Broadcast OSPF interface
       junipernetworks.junos.junos_config:
         lines:
