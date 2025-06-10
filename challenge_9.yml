@@ -9,13 +9,13 @@
     - name: Configure Point-to-Point OSPF interface
       junipernetworks.junos.junos_config:
         lines:
-          - delete protocols ospf area 0 interface ge-0/0/1.0
+          - delete protocols ospf area 1 interface ge-0/0/1.0
           - set protocols ospf area 0 interface ge-0/0/1.0 interface-type p2p
       when: inventory_hostname in ['vMX1', 'vQFX1']
 
     - name: Configure NMBA OSPF interface
       junipernetworks.junos.junos_config:
         lines:
-          - delete protocols ospf area 0 interface ge-0/0/2.0
+          - delete protocols ospf area 1 interface ge-0/0/2.0
           - set protocols ospf area 0 interface ge-0/0/2.0 interface-type nbma
       when: inventory_hostname == 'vMX1'
