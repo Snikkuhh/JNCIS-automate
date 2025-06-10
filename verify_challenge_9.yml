@@ -1,0 +1,18 @@
+---
+- name: Verify_challenge_9
+  hosts: all
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Run show ospf neighbors command
+      junipernetworks.junos.junos_command:
+        commands:
+          - show ospf interface 
+          - show ospf neighbor
+          - show ospf database
+      register: ospf_output
+
+    - name: Display result
+      debug:
+        var: ospf_output.stdout_lines
