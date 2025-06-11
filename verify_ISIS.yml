@@ -1,0 +1,19 @@
+---
+    - name: Verify ISIS
+      hosts: vmx
+      connection: netconf
+      gather_facts: no
+    
+      tasks:
+        - name: Run show ISIS
+          junipernetworks.junos.junos_command:
+            commands:
+              - show isis adjacency
+              - show isis interface
+              - show isis database
+              - show isis spf log
+          register: route_check
+            
+        - name: Display ISIS routes
+          debug:
+            var: route_check.stdout_lines
