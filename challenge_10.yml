@@ -17,7 +17,7 @@
           - set protocols isis level 1 disable
           - set protocols isis level 2 wide-metrics-only
 
-        - name: Configure IS-IS on ge-0/0/2.0
+    - name: Configure IS-IS on ge-0/0/2.0
       junipernetworks.junos.junos_config:
         lines:
           - set protocols isis interface ge-0/0/2.0 level 2
