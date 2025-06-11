@@ -6,17 +6,11 @@
 
   tasks:
 
-    - name: Configure IS-IS on ge-0/0/3.0 and lo0.0
+    - name: Configure IS-IS on ge-0/0/2.0
       junipernetworks.junos.junos_config:
         lines:
-         - set protocols isis level 1 disable
-         - set protocols isis level 2 wide-metrics-only
-         - set protocols isis interface ge-0/0/3.0 level 2
-         - set protocols isis interface ge-0/0/3.0 point-to-point
-         - set protocols isis interface ge-0/0/3.0 family inet
-         - set protocols isis interface lo0.0 level 2
-         - set protocols isis interface lo0.0 passive
-          - set protocols isis interface lo0.0 family inet
+         - set protocols isis interface ge-0/0/2.0 family inet
+         - 
       when: inventory_hostname == 'vMX1'
 
     - name: Configure IS-IS on ge-0/0/2.0

@@ -149,3 +149,9 @@ Status:
 • Interfaces correct geconfigureerd op vMX en vQFX (broadcast + p2p)
 • Neighbor-verificatie succesvol met Ansible
 • OSPF database toont verwachte LSAs
+
+✅ Challenge 10 – IS-IS Basics & DIS Election
+Level 2 adjacency succesvol tussen vMX-1 en vMX-2 via ge-0/0/2.0
+lo0.0 ingesteld als passive interface
+SPF-log toont stabiele periodic runs + adjacency formation
+DIS-election zichtbaar via “Level 2 DR” in interface database
