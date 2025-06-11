@@ -9,5 +9,7 @@
     - name: Configure IS-IS on ge-0/0/2.0
       junipernetworks.junos.junos_config:
         lines:
+          - set protocols isis level 2 wide-metrics-only
           - set protocols isis interface ge-0/0/2.0 level 2
           - set protocols isis interface ge-0/0/2.0
+      when: inventory_hostname == 'vMX1'
