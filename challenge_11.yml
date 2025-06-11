@@ -9,16 +9,16 @@
     - name: Configure IS-IS on vMX3
       junipernetworks.junos.junos_config:
         lines:
-         - set interfaces ge-0/0/0 unit 0 family inet address 192.168.100.13/24
-         - set interfaces ge-0/0/4 unit 0 family iso
-         - set interfaces ge-0/0/5 unit 0 family iso
-         - set interfaces lo0 unit 0 family inet address 3.3.3.3/32
-         - set interfaces lo0 unit 0 family iso address 49.0002.0192.0168.0003.00
-         - set protocols isis level 1 wide-metrics-only
-         - set protocols isis level 2 wide-metrics-only
-         - set protocols isis interface ge-0/0/2.0
-         - set protocols isis interface ge-0/0/3.0
-         - set protocols isis interface lo0.0 passive
+          - set interfaces ge-0/0/0 unit 0 family inet address 192.168.100.13/24
+          - set interfaces ge-0/0/4 unit 0 family iso
+          - set interfaces ge-0/0/5 unit 0 family iso
+          - set interfaces lo0 unit 0 family inet address 3.3.3.3/32
+          - set interfaces lo0 unit 0 family iso address 49.0002.0192.0168.0003.00
+          - set protocols isis level 1 wide-metrics-only
+          - set protocols isis level 2 wide-metrics-only
+          - set protocols isis interface ge-0/0/2.0
+          - set protocols isis interface ge-0/0/3.0
+          - set protocols isis interface lo0.0 passive
       when: inventory_hostname == 'vMX3'
 
     - name: Configure IS-IS on level 1
