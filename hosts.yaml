@@ -21,6 +21,15 @@ all:
           loopback_ip: 2.2.2.2
           interface_ip: 192.168.12.2
 
+        vMX3:
+          ansible_host: 192.168.100.13
+          ansible_user: lab
+          ansible_password: lab123
+          ansible_network_os: junos
+          ansible_connection: netconf
+          loopback_ip: 3.3.3.3
+          interface_ip: 192.168.12.3
+
     vqfx:
       hosts:
         vQFX1:
