@@ -6,14 +6,9 @@
 
   tasks:
 
-    - name: Configure IS-IS on ge-0/0/2.0
+    - name: minimal ISIS setup
       junipernetworks.junos.junos_config:
         lines:
-          - set routing-options router-id 1.1.1.1
           - set protocols isis net 49.0001.0100.0000.0001.00
-          - set protocols isis level 1 disable
-          - set protocols isis level 2 wide-metrics-only
-          - set protocols isis interface lo0.0
-          - set protocols isis interface ge-0/0/2.0 level 2
           - set protocols isis interface ge-0/0/2.0
       when: inventory_hostname == 'vMX1'
