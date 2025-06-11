@@ -28,3 +28,22 @@
           - set protocols isis level 1 wide-metrics-only
           - set protocols isis level 2 disable
       when: inventory_hostname == 'vMX1'
+
+    - name: Configure interfaces vMX3
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces ge-0/0/4 unit 0 family inet address 172.10.13.1/30
+          - set interfaces ge-0/0/5 unit 0 family inet address 172.10.14.1/30
+      when: inventory_hostname == 'vMX3'
+
+    - name: Configure interfaces vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces ge-0/0/4 unit 0 family inet address 172.10.13.2/30
+      when: inventory_hostname == 'vMX1'
+
+    - name: Configure interfaces vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces ge-0/0/5 unit 0 family inet address 172.10.14.2/30
+      when: inventory_hostname == 'vMX2'
