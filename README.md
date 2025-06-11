@@ -50,12 +50,9 @@ Loopback-adressen succesvol via OSPF geadverteerd. OSPF-neighbor-ship confirmed 
 - SPF-log toont adjacency-formation en LSP exchange
 - DIS zichtbaar in interface database
 
+### Challenge 11 – IS-IS Adjacencies & Multi-Level Design
+✅ Lo0 passive + ge-0/0/2.0 IS-IS Level 1 ↔ Level 2 structuur getest.
+✅ 3 routers in Level 1 & Level 2 domeinen geverifieerd.
+✅ LSP database entries correct verspreid per level.
+
 ---
-
-## Volgende Challenge
-**Challenge 11 – IS-IS Levels & Areas**
-- Configureer routers met Level 1-only, Level 2-only en Level 1-2 gedrag
-- Valideer LSP propagation gedrag en area-bereik
-- Gebruik Ansible voor verificatie van SPF logs, LSP database en reachability
-
-Laat me weten wanneer klaar om te starten met Challenge 11.
