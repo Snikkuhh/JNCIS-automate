@@ -18,12 +18,6 @@
           - set protocols isis interface ge-0/0/2.0 metric 100
       when: inventory_hostname == 'vMX2'
 
-    - name: Set loopback metric to test impact
-      junipernetworks.junos.junos_config:
-        lines:
-          - set protocols isis interface lo0.0 passive
-          - set protocols isis interface lo0.0 metric 5
-
     - name: Enable level 2 only
       junipernetworks.junos.junos_config:
         lines:
