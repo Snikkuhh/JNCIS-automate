@@ -17,15 +17,25 @@
         lines:
           - set security ipsec policy GRE-POL proposals GRE-PROP
 
-    - name: IPsec VPN (transport mode)
+    - name: IPsec VPN (transport mode) vMX1
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec vpn GRE-VPN bind-interface st0.0
-          - set security ipsec vpn GRE-VPN ike gateway GRE-GW
-          - set security ipsec vpn GRE-VPN ike ipsec-policy GRE-POL
-          - set security ipsec vpn GRE-VPN establish-tunnels immediately
+          - set security ipsec vpn GRE-VPN1 bind-interface st0.0
+          - set security ipsec vpn GRE-VPN1 ike gateway GW-GRE
+          - set security ipsec vpn GRE-VPN1 ipsec-policy GRE-POL
+          - set security ipsec vpn GRE-VPN1 establish-tunnels immediately
+     when: inventory_hostname == 'vMX1'
 
-    - name: IKE gateway VMX2
+    - name: IPsec VPN (transport mode) vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ipsec vpn GRE-VPN2 bind-interface st0.0
+          - set security ipsec vpn GRE-VPN2 ike gateway GW-GRE
+          - set security ipsec vpn GRE-VPN2 ipsec-policy GRE-POL
+          - set security ipsec vpn GRE-VPN2 establish-tunnels immediately
+     when: inventory_hostname == 'vMX2'
+
+    - name: IKE gateway VMX1
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy IKE-GRE mode main
@@ -34,8 +44,9 @@
           - set security ike gateway GW-GRE address 192.168.1.1
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
+     when: inventory_hostname == 'vMX1'
 
-    - name: IKE gateway VMX1
+    - name: IKE gateway VMX2
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy IKE-GRE mode main
@@ -44,6 +55,7 @@
           - set security ike gateway GW-GRE address 192.168.1.2
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
+     when: inventory_hostname == 'vMX2'
 
     - name: Static route to GRE tunnel
       junipernetworks.junos.junos_config:
