@@ -8,7 +8,7 @@
     - name: GRE Tunnel Configuratie vMX1
       junipernetworks.junos.junos_config:
         lines:
-          - set interfaces lo0 unit 1 family inet address 10.1.1.1/32
+          - set interfaces lo0 unit 0 family inet address 10.1.1.1/32
           - set interfaces gr-0/0/0 unit 0 tunnel source 10.1.1.1
           - set interfaces gr-0/0/0 unit 0 tunnel destination 10.2.2.2
           - set interfaces gr-0/0/0 unit 0 family inet address 192.168.1.1/30
@@ -17,7 +17,7 @@
     - name: GRE Tunnel Configuratie vM2
       junipernetworks.junos.junos_config:
         lines:
-          - set interfaces lo0 unit 1 family inet address 10.2.2.2/32
+          - set interfaces lo0 unit 0 family inet address 10.2.2.2/32
           - set interfaces gr-0/0/0 unit 0 tunnel source 10.2.2.2
           - set interfaces gr-0/0/0 unit 0 tunnel destination 10.1.1.1
           - set interfaces gr-0/0/0 unit 0 family inet address 192.168.1.2/30
