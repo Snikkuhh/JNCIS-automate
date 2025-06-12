@@ -8,14 +8,13 @@
     - name: Enable IS-IS with narrow metrics on vMX1
       junipernetworks.junos.junos_config:
         lines:
-          - delete protocols isis wide-metrics-only
           - set protocols isis interface ge-0/0/2.0 metric 10
       when: inventory_hostname == 'vMX1'
 
     - name: Enable IS-IS with wide metrics on vMX2
       junipernetworks.junos.junos_config:
         lines:
-          - set protocols isis wide-metrics-only
+          - set protocols isis level 2 wide-metrics-only
           - set protocols isis interface ge-0/0/2.0 metric 100
       when: inventory_hostname == 'vMX2'
 
