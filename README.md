@@ -61,4 +61,8 @@ Loopback-adressen succesvol via OSPF geadverteerd. OSPF-neighbor-ship confirmed 
 
 ## ✅ Challenge 13 - Advanced IS-IS Metrics + Wide/Narrow Toggle
 **Focus:** Wide/narrow metrics manipuleren + LSP gedrag controleren.
+
+## ✅ Challenge 14 – IS-IS Route Suppression & Interface Cost
+- Suppress forwarding routes.
+- Modify interface cost and observe path selection.
 ---
