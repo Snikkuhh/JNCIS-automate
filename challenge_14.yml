@@ -1,0 +1,42 @@
+---
+- name: Challenge 14 - IS-IS Overload Bit & Route Suppression
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Enable IS-IS Overload Bit on vMX3
+      when: inventory_hostname == 'vMX3'
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis overload
+
+    - name: Configure loopback interface in IS-IS on all routers
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface lo0.0 passive
+          - set protocols isis level 2 wide-metrics-only
+          - set protocols isis family inet unicast
+
+    - name: Configure point-to-point IS-IS interfaces
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface ge-0/0/2.0 point-to-point
+          - set protocols isis interface ge-0/0/2.0 level 2
+
+    - name: Suppress forwarding routes on vMX3 level 1
+      when: inventory_hostname == 'vMX3'
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis level 1 overload
+
+    - name: Suppress forwarding routes on vMX3 level 2
+      when: inventory_hostname == 'vMX3'
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis level 2 overload
+
+    - name: Configure IS-IS interface cost to impact SPF
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface ge-0/0/2.0 level 2 metric 50
