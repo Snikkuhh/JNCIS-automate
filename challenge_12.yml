@@ -31,7 +31,3 @@
           - set protocols isis interface ge-0/0/3.0 point-to-point
           - set protocols isis interface ge-0/0/3.0 level 2
       ignore_errors: yes
-
-    - name: Commit IS-IS configuration changes
-      junipernetworks.junos.junos_commit:
-        confirm: no
