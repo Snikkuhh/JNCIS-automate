@@ -59,4 +59,6 @@ Loopback-adressen succesvol via OSPF geadverteerd. OSPF-neighbor-ship confirmed 
 ✅ Overload bit set and seen in LSP
 ✅ SPF triggers (e.g. adjacency) verified via logs
 
+## ✅ Challenge 13 - Advanced IS-IS Metrics + Wide/Narrow Toggle
+**Focus:** Wide/narrow metrics manipuleren + LSP gedrag controleren.
 ---
