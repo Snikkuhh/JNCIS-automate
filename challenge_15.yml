@@ -12,7 +12,7 @@
           - set interfaces gr-0/0/0 unit 0 tunnel source 10.1.1.1
           - set interfaces gr-0/0/0 unit 0 tunnel destination 10.2.2.2
           - set interfaces gr-0/0/0 unit 0 family inet address 192.168.1.1/30
-          - set interfaces gr-0/0/0 unit0 description "GRE Tunnel to vMX2"
+          - set interfaces gr-0/0/0 unit 0 description "GRE Tunnel to vMX2"
       when: inventory_hostname == 'vMX1'
 
     - name: GRE Tunnel Configuratie vMX2
