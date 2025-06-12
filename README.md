@@ -55,4 +55,8 @@ Loopback-adressen succesvol via OSPF geadverteerd. OSPF-neighbor-ship confirmed 
 ✅ 3 routers in Level 1 & Level 2 domeinen geverifieerd.
 ✅ LSP database entries correct verspreid per level.
 
+## Challenge 12 – IS-IS Overload Bit + SPF Trigger Events
+✅ Overload bit set and seen in LSP
+✅ SPF triggers (e.g. adjacency) verified via logs
+
 ---
