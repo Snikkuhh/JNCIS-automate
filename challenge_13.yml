@@ -1,0 +1,36 @@
+---
+- name: Challenge 13 - Advanced IS-IS Metrics + Wide/Narrow Toggle
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: Enable IS-IS with narrow metrics on vMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - delete protocols isis wide-metrics-only
+          - set protocols isis interface ge-0/0/2.0 metric 10
+      when: inventory_hostname == 'vMX1'
+
+    - name: Enable IS-IS with wide metrics on vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis wide-metrics-only
+          - set protocols isis interface ge-0/0/2.0 metric 100
+      when: inventory_hostname == 'vMX2'
+
+    - name: Set loopback metric to test impact
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface lo0.0 passive
+          - set protocols isis interface lo0.0 metric 5
+
+    - name: Enable level 2 only
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface ge-0/0/2.0 level 2
+
+    - name: Enable family inet for IS-IS
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis family inet unicast
