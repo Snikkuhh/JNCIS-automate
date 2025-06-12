@@ -33,5 +33,5 @@
       ignore_errors: yes
 
     - name: Commit IS-IS configuration changes
-      junipernetworks.junos.junos_commit:
+      junipernetworks.junos.junos_config:
         confirm: no
