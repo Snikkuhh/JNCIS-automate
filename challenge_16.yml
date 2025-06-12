@@ -1,0 +1,41 @@
+---
+- name: Challenge 16 - GRE over IPsec
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+    - name: IPsec security proposal
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ipsec proposal GRE-PROP protocol esp
+          - set security ipsec proposal GRE-PROP encryption-algorithm aes-128-cbc
+          - set security ipsec proposal GRE-PROP authentication-algorithm hmac-sha1-96
+
+    - name: IPsec security proposal
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ipsec policy GRE-POL proposal GRE-PROP
+
+    - name: IPsec VPN (transport mode)
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ipsec vpn GRE-VPN bind-interface st0.0
+          - set security ipsec vpn GRE-VPN ike gateway GRE-GW
+          - set security ipsec vpn GRE-VPN ike ipsec-policy GRE-POL
+          - set security ipsec vpn GRE-VPN establish-tunnels immediately
+
+    - name: IKE gateway
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ike policy IKE-GRE mode main
+          - set security ike policy IKE-GRE proposal-set standard
+          - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
+          - set security ike gateway GW-GRE address {{ hostvars['vmx2']['ansible_host'] }}
+          - set security ike gateway GW-GRE external-interface ge-0/0/0
+          - set security ike gateway GW-GRE ike-policy IKE-GRE
+
+    - name: Static route to GRE tunnel
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options static route 10.10.10.0/30 next-hop st0.0
