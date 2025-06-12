@@ -1,6 +1,6 @@
 ---
     - name: Verify GRE connection
-      hosts: vMX1
+      hosts: vmx
       connection: netconf
       gather_facts: no
     
