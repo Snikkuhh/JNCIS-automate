@@ -5,6 +5,7 @@
   gather_facts: no
 
   tasks:
+    
     - name: IPsec security proposal
       junipernetworks.junos.junos_config:
         lines:
@@ -24,7 +25,7 @@
           - set security ipsec vpn GRE-VPN1 ike gateway GW-GRE
           - set security ipsec vpn GRE-VPN1 ipsec-policy GRE-POL
           - set security ipsec vpn GRE-VPN1 establish-tunnels immediately
-     when: inventory_hostname == 'vMX1'
+      when: inventory_hostname == 'vMX1'
 
     - name: IPsec VPN (transport mode) vMX2
       junipernetworks.junos.junos_config:
@@ -33,7 +34,7 @@
           - set security ipsec vpn GRE-VPN2 ike gateway GW-GRE
           - set security ipsec vpn GRE-VPN2 ipsec-policy GRE-POL
           - set security ipsec vpn GRE-VPN2 establish-tunnels immediately
-     when: inventory_hostname == 'vMX2'
+      when: inventory_hostname == 'vMX2'
 
     - name: IKE gateway VMX1
       junipernetworks.junos.junos_config:
@@ -44,7 +45,7 @@
           - set security ike gateway GW-GRE address 192.168.1.1
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
-     when: inventory_hostname == 'vMX1'
+      when: inventory_hostname == 'vMX1'
 
     - name: IKE gateway VMX2
       junipernetworks.junos.junos_config:
@@ -55,7 +56,7 @@
           - set security ike gateway GW-GRE address 192.168.1.2
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
-     when: inventory_hostname == 'vMX2'
+      when: inventory_hostname == 'vMX2'
 
     - name: Static route to GRE tunnel
       junipernetworks.junos.junos_config:
