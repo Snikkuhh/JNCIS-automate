@@ -27,7 +27,7 @@
             commands:
               - ping 10.1.1.1 source 10.2.2.2
           when: inventory_hostname == 'vMX2'
-          register: gre_ping
+          register: gre_ping2
 
         - name: Display GRE Tunnel Configuration
           debug:
@@ -36,3 +36,7 @@
         - name: Display GRE Tunnel Reachability
           debug:
             var: gre_ping.stdout_lines
+
+        - name: Display GRE Tunnel Reachability
+          debug:
+            var: gre_ping2.stdout_lines
