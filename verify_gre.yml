@@ -9,9 +9,7 @@
         - name: Verify GRE Tunnel Configuration
           junipernetworks.junos.junos_command:
             commands:
-              - show interfaces gr-0/0/0
-              - show interfaces lo0
-              - show route protocols gre
+              - show interfaces terse | match gre
           register: gre_check
 
         - name: Verify GRE Tunnel Reachability
