@@ -29,8 +29,4 @@
       junipernetworks.junos.junos_config:
         lines:
           - set protocols isis interface ge-0/0/2.0 level 2
-
-    - name: Enable family inet for IS-IS
-      junipernetworks.junos.junos_config:
-        lines:
-          - set protocols isis family inet unicast
+          - set protocols isis interface ge-0/0/2.0 point-to-point
