@@ -11,7 +11,7 @@
               - show isis adjacency
               - show isis interface
               - show isis database
-              - show isis spf log
+              - show isis overview
           register: route_check
             
         - name: Display ISIS routes
