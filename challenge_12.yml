@@ -1,0 +1,37 @@
+---
+- name: Challenge 12 - IS-IS Routing Loops & Overload Bit
+  hosts: vmx
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: Configure IS-IS on vMX3
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis overload
+      when: inventory_hostname == 'vMX3'
+
+    - name: Configure IS-IS for loopback interface (all routers)
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface lo0.0 passive
+          - set protocols isis level 2 wide-metrics-only
+          - set protocols isis family inet unicast
+
+    - name: Configure IS-IS on ge-0/0/2.0 (point-to-point, level 2)
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface ge-0/0/2.0 point-to-point
+          - set protocols isis interface ge-0/0/2.0 level 2
+
+    - name: Configure IS-IS on ge-0/0/3.0 (optional interface)
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols isis interface ge-0/0/3.0 point-to-point
+          - set protocols isis interface ge-0/0/3.0 level 2
+      ignore_errors: yes
+
+    - name: Commit IS-IS configuration changes
+      junipernetworks.junos.junos_commit:
+        confirm: no
