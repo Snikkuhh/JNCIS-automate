@@ -1,0 +1,12 @@
+---
+    - name: Verify GRE connection
+      hosts: vmx
+      connection: netconf
+      gather_facts: no
+    
+      tasks:
+        - name: show GRE connection
+          juniper_junos_gre:
+            state: show
+            name: gre0
+          register: result
