@@ -15,7 +15,7 @@
     - name: IPsec security proposal
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec policy GRE-POL proposal GRE-PROP
+          - set security ipsec policy GRE-POL proposals GRE-PROP
 
     - name: IPsec VPN (transport mode)
       junipernetworks.junos.junos_config:
@@ -25,13 +25,23 @@
           - set security ipsec vpn GRE-VPN ike ipsec-policy GRE-POL
           - set security ipsec vpn GRE-VPN establish-tunnels immediately
 
-    - name: IKE gateway
+    - name: IKE gateway VMX2
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy IKE-GRE mode main
           - set security ike policy IKE-GRE proposal-set standard
           - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
-          - set security ike gateway GW-GRE address {{ hostvars['vmx2']['ansible_host'] }}
+          - set security ike gateway GW-GRE address {{ hostvars['vMX2']['ansible_host'] }}
+          - set security ike gateway GW-GRE external-interface ge-0/0/0
+          - set security ike gateway GW-GRE ike-policy IKE-GRE
+
+    - name: IKE gateway VMX1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ike policy IKE-GRE mode main
+          - set security ike policy IKE-GRE proposal-set standard
+          - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
+          - set security ike gateway GW-GRE address {{ hostvars['vMX1']['ansible_host'] }}
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
 
