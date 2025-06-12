@@ -13,7 +13,7 @@
               - show interfaces gr-0/0/0
               - show interfaces gr-0/0/0 extensive
               - show configuration interfaces gr-0/0/0
-          when: inventory_hostname is [vMX1, vMX2]
+          when: inventory_hostname is [ 'vMX1', 'vMX2' ]
           register: gre_check
 
         - name: Verify GRE Tunnel Reachability
