@@ -34,4 +34,4 @@
 
     - name: Commit IS-IS configuration changes
       junipernetworks.junos.junos_config:
-        confirm: no
+        commit: false
