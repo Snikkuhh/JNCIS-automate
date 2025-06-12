@@ -18,6 +18,14 @@
         lines:
           - set security ipsec policy GRE-POL proposals GRE-PROP
 
+    - name: IKE proposal
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ike proposal IKE-PROP encryption-algorithm aes-128-cbc
+          - set security ike proposal IKE-PROP authentication-algorithm hmac-sha1-96
+          - set security ike proposal IKE-PROP dh-group group2
+          - set security ike proposal IKE-PROP lifetime-seconds 3600
+
     - name: IKE gateway VMX1
       junipernetworks.junos.junos_config:
         lines:
