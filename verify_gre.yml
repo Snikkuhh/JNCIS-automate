@@ -5,8 +5,20 @@
       gather_facts: no
     
       tasks:
-        - name: show GRE connection
-          juniper_junos_gre:
-            state: show
-            name: gre0
-          register: result
+
+        - name: Verify GRE Tunnel Configuration
+          junipernetworks.junos.junos_command:
+            commands:
+              - show interfaces gr-0/0/0
+              - show interfaces lo0
+              - show route protocols gre
+          register: gre_check
+
+        - name: Verify GRE Tunnel Reachability
+          junipernetworks.junos.junos_command:
+            commands:
+              - ping 192.168.1.2 source 192.168.1.1
+
+        - name: Display GRE Tunnel Configuration
+          debug:
+            var: gre_check.stdout_lines
