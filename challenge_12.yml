@@ -17,7 +17,6 @@
         lines:
           - set protocols isis interface lo0.0 passive
           - set protocols isis level 2 wide-metrics-only
-          - set protocols isis family inet unicast
 
     - name: Configure IS-IS on ge-0/0/2.0 (point-to-point, level 2)
       junipernetworks.junos.junos_config:
