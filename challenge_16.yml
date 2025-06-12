@@ -31,7 +31,7 @@
           - set security ike policy IKE-GRE mode main
           - set security ike policy IKE-GRE proposal-set standard
           - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
-          - set security ike gateway GW-GRE address {{ hostvars['vMX2']['ansible_host'] }}
+          - set security ike gateway GW-GRE address 192.168.1.1
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
 
@@ -41,7 +41,7 @@
           - set security ike policy IKE-GRE mode main
           - set security ike policy IKE-GRE proposal-set standard
           - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
-          - set security ike gateway GW-GRE address {{ hostvars['vMX1']['ansible_host'] }}
+          - set security ike gateway GW-GRE address 192.168.1.2
           - set security ike gateway GW-GRE external-interface ge-0/0/0
           - set security ike gateway GW-GRE ike-policy IKE-GRE
 
