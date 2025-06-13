@@ -10,7 +10,6 @@ all:
           ansible_network_os: junipernetworks.junos.junos
           ansible_connection: netconf
           loopback_ip: 1.1.1.1
-
         PE2:
           ansible_host: 192.168.100.12
           ansible_user: lab
@@ -27,7 +26,6 @@ all:
           ansible_password: lab123
           ansible_network_os: junipernetworks.junos.junos
           ansible_connection: netconf
-
         vQFX2:
           ansible_host: 192.168.100.22
           ansible_user: lab
@@ -43,7 +41,6 @@ all:
           ansible_password: lab123
           ansible_network_os: junipernetworks.junos.junos
           ansible_connection: netconf
-
         vSRX2:
           ansible_host: 192.168.100.14
           ansible_user: lab
