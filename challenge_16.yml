@@ -16,7 +16,7 @@
     - name: IPsec security proposal
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec policy GRE-POL proposal GRE-PROP
+          - set security ipsec policy GRE-POL proposals GRE-PROP
 
     - name: IKE policy and gateway
       junipernetworks.junos.junos_config:
