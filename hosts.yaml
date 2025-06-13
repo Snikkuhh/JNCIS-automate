@@ -3,7 +3,7 @@ all:
   children:
     vmx:
       hosts:
-         PE1:
+        PE1:
           ansible_host: 192.168.100.11
           ansible_user: lab
           ansible_password: lab123
