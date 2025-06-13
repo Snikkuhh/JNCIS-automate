@@ -18,12 +18,21 @@
         lines:
           - set security ipsec policy GRE-POL proposals GRE-PROP
 
-    - name: IKE policy and gateway
+    - name: IKE policy and gateway vMX1
       junipernetworks.junos.junos_config:
         lines:
-          - set security ike policy IKE-GRE mode main
-          - set security ike policy IKE-GRE proposal-set standard
-          - set security ike policy IKE-GRE pre-shared-key ascii-text mysecret123
+          - set security ike policy 192.168.1.2 mode main
+          - set security ike policy 192.168.1.2 proposal-set standard
+          - set security ike policy 192.168.1.2 pre-shared-key ascii-text mysecret123
+      when: inventory_hostname == 'vMX1'
+
+    - name: IKE policy and gateway vMX2
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security ike policy 192.168.1.1 mode main
+          - set security ike policy 192.168.1.1 proposal-set standard
+          - set security ike policy 192.168.1.1 pre-shared-key ascii-text mysecret123
+      when: inventory_hostname == 'vMX2'
 
     - name: IKE gateway VMX1
       junipernetworks.junos.junos_config:
