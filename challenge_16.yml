@@ -58,15 +58,6 @@
           - set security ipsec vpn GRE-VPN tunnel-interface gr-0/0/0.0
           - set security ipsec vpn GRE-VPN establish-tunnels immediately
 
-    - name: IPsec VPN (transport mode) vMX2
-      junipernetworks.junos.junos_config:
-        lines:
-          - set security ipsec vpn GRE-VPN2 bind-interface st0.0
-          - set security ipsec vpn GRE-VPN2 ike gateway GW-GRE
-          - set security ipsec vpn GRE-VPN2 ipsec-policy GRE-POL
-          - set security ipsec vpn GRE-VPN2 establish-tunnels immediately
-      when: inventory_hostname == 'vMX2'
-
     - name: Security zones
       junipernetworks.junos.junos_config:
         lines:
