@@ -22,7 +22,7 @@
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy 192.168.1.2 mode main
-          - set security ike policy 192.168.1.2 proposal-set standard
+          - set security ike policy 192.168.1.2 proposals IKE-PROP
           - set security ike policy 192.168.1.2 pre-shared-key ascii-text mysecret123
       when: inventory_hostname == 'vMX1'
 
@@ -30,7 +30,7 @@
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy 192.168.1.1 mode main
-          - set security ike policy 192.168.1.1 proposal-set standard
+          - set security ike policy 192.168.1.1 proposala IKE-PROP
           - set security ike policy 192.168.1.1 pre-shared-key ascii-text mysecret123
       when: inventory_hostname == 'vMX2'
 
