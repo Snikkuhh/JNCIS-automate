@@ -6,13 +6,13 @@
 
   tasks:
 
-    - name: configure st0 interfaces vMX1
+    - name: configure st0 interfaces PE1
       junipernetworks.junos.junos_config:
         lines:
           - set interfaces st0 unit 0 family inet address 10.10.10.1/30
       when: inventory_hostname == 'PE1'
 
-    - name: configure st0 interfaces vMX2
+    - name: configure st0 interfaces PE2
       junipernetworks.junos.junos_config:
         lines:
           - set interfaces st0 unit 0 family inet address 10.10.10.2/30
@@ -29,7 +29,8 @@
 
     - name: configure IKE deel 2
       junipernetworks.junos.junos_config:
-        lines:- name: configure IKE Proposal, Policy and Gateway vMX1
+        lines:
+          - name: configure IKE Proposal, Policy and Gateway vMX1
           - set security ike policy IKE-POL mode main
           - set security ike policy IKE-POL proposals IKE-PROP
           - set security ike policy IKE-POL pre-shared-key ascii-text secret123
