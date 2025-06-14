@@ -30,7 +30,6 @@
     - name: configure IKE deel 2
       junipernetworks.junos.junos_config:
         lines:
-          - name: configure IKE Proposal, Policy and Gateway vMX1
           - set security ike policy IKE-POL mode main
           - set security ike policy IKE-POL proposals IKE-PROP
           - set security ike policy IKE-POL pre-shared-key ascii-text secret123
