@@ -36,7 +36,6 @@
           - set security ike proposal IKE-PROP authentication-algorithm sha-256
           - set security ike proposal IKE-PROP encryption-algorithm aes-256-cbc
           - set security ike proposal IKE-PROP lifetime-seconds 3600
-      when: inventory_hostname == 'vSRX1'
 
     - name: configure ike phase 1 - deel 2
       junipernetworks.junos.junos_config:
