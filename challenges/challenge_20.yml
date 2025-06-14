@@ -5,13 +5,6 @@
       gather_facts: no
     
       tasks:
-    
-        - name: set interfaces as switchports
-          junipernetworks.junos.junos_config:
-            lines:
-              - set interfaces xe-0/0/0 unit 0 family ethernet-switching interface-mode trunk
-              - set interfaces xe-0/0/1 unit 0 family ethernet-switching interface-mode trunk
-              - set interfaces xe-0/0/4 unit 0 family ethernet-switching interface-mode trunk
 
         - name: configure rstp on QFX's
           junipernetworks.junos.junos_config:
