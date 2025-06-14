@@ -1,96 +1,89 @@
 ---
 - name: Challenge 16 - GRE over IPsec
-  hosts: vmx
+  hosts: vsrx
   connection: netconf
   gather_facts: no
 
   tasks:
 
-    - name: configure st0 interfaces PE1
+    - name: configure GRE interfaces vSRX1
       junipernetworks.junos.junos_config:
         lines:
-          - set interfaces st0 unit 0 family inet address 10.10.10.1/30
-      when: inventory_hostname == 'PE1'
+          - set interfaces gr-0/0/0 unit 0 tunnel source 172.10.10.2
+          - set interfaces gr-0/0/0 unit 0 tunnel destination 172.10.30.3
+          - set interfaces gr-0/0/0 unit 0 family inet address 10.10.10.1/30
+      when: inventory_hostname == 'vSRX1'
 
-    - name: configure st0 interfaces PE2
+    - name: configure GRE interfaces vSRX2
       junipernetworks.junos.junos_config:
         lines:
-          - set interfaces st0 unit 0 family inet address 10.10.10.2/30
-      when: inventory_hostname == 'PE2'
+          - set interfaces gr-0/0/0 unit 0 tunnel source 172.10.30.2
+          - set interfaces gr-0/0/0 unit 0 tunnel destination 172.10.10.2
+          - set interfaces gr-0/0/0 unit 0 family inet address 10.10.10.2/30
+      when: inventory_hostname == 'vSRX2'
 
-    - name: configure IKE 
+    - name: configure security zones
+      junipernetworks.junos.junos_config:
+        lines:
+          - set security zones security-zone GRE interfaces gr-0/0/0.0 host-inbound-traffic system-services all
+          - set security zones security-zone GRE interfaces gr-0/0/0.0 host-inbound-traffic protocols all
+
+    - name: configure ike phase 1 vSRX1
       junipernetworks.junos.junos_config:
         lines:
           - set security ike proposal IKE-PROP authentication-method pre-shared-keys
-          - set security ike proposal IKE-PROP dh-group group2
-          - set security ike proposal IKE-PROP authentication-algorithm sha1
-          - set security ike proposal IKE-PROP encryption-algorithm aes-128-cbc
+          - set security ike proposal IKE-PROP dh-group group14
+          - set security ike proposal IKE-PROP authentication-algorithm sha-256
+          - set security ike proposal IKE-PROP encryption-algorithm aes-256-cbc
           - set security ike proposal IKE-PROP lifetime-seconds 3600
+      when: inventory_hostname == 'vSRX1'
 
-    - name: configure IKE deel 2
+    - name: configure ike phase 1 - deel 2
       junipernetworks.junos.junos_config:
         lines:
           - set security ike policy IKE-POL mode main
           - set security ike policy IKE-POL proposals IKE-PROP
-          - set security ike policy IKE-POL pre-shared-key ascii-text secret123
+          - set security ike policy IKE-POL pre-shared-key ascii-text geheim123
 
-    - name: configure IKE PE1
+    - name: configure ike phase 1 vSRX1 - deel 3
       junipernetworks.junos.junos_config:
         lines:
-          - set security ike gateway GW-VMX2 address 192.168.100.12
-          - set security ike gateway GW-VMX2 external-interface ge-0/0/0
-          - set security ike gateway GW-VMX2 ike-policy IKE-POL
-      when: inventory_hostname == 'PE1'
+          - set security ike gateway GW-IPSEC address 172.10.30.2
+          - set security ike gateway GW-IPSEC external-interface ge-0/0/1
+          - set security ike gateway GW-IPSEC ike-policy IKE-POL
+      when: inventory_hostname == 'vSRX1'
 
-    - name: configure IKE PE2
+    - name: configure ike phase 1 vSRX2 - deel 3
       junipernetworks.junos.junos_config:
         lines:
-          - set security ike gateway GW-VMX2 address 192.168.100.11
-          - set security ike gateway GW-VMX2 external-interface ge-0/0/0
-          - set security ike gateway GW-VMX2 ike-policy IKE-POL
-      when: inventory_hostname == 'PE2'
-    
-    - name: IPsec config
-      junipernetworks.junos.junos_config:
-        lines:
-          - set security ipsec proposal GRE-PROP protocol esp
-          - set security ipsec proposal GRE-PROP encryption-algorithm aes-128-cbc
-          - set security ipsec proposal GRE-PROP authentication-algorithm hmac-sha1-96
+          - set security ike gateway GW-IPSEC address 172.10.10.2
+          - set security ike gateway GW-IPSEC external-interface ge-0/0/1
+          - set security ike gateway GW-IPSEC ike-policy IKE-POL
+      when: inventory_hostname == 'vSRX2'
 
-    - name: IPsec config deel 2
+    - name: configure ipsec phase 2
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec policy GRE-POL perfect-forward-secrecy keys group2
-          - set security ipsec policy GRE-POL proposals GRE-PROP
+          - set security ipsec proposal IPSEC-PROP protocol esp
+          - set security ipsec proposal IPSEC-PROP authentication-algorithm hmac-sha-256-128
+          - set security ipsec proposal IPSEC-PROP encryption-algorithm aes-256-cbc
+          - set security ipsec policy IPSEC-POL perfect-forward-secrecy keys group14
+          - set security ipsec policy IPSEC-POL proposals IPSEC-PROP
 
-    - name: IPsec config PE1
+    - name: configure ipsec phase 2 vSRX1
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec vpn GRE-VPN bind-interface st0.0
-          - set security ipsec vpn GRE-VPN ike gateway GW-VMX2
-          - set security ipsec vpn GRE-VPN ike ipsec-policy GRE-POL
-          - set security ipsec vpn GRE-VPN traffic-selector GRE-TUNNEL local-ip 10.10.10.1/30 remote-ip 10.10.10.2/30
-      when: inventory_hostname == 'PE1'
+          - set security ipsec vpn GRE-IPSEC bind-interface st0
+          - set security ipsec vpn GRE-IPSEC ike gateway GW-IPSEC
+          - set security ipsec vpn GRE-IPSEC ike ipsec-policy IPSEC-POL
+          - set security ipsec vpn GRE-IPSEC traffic-selector GRE-TRAFFIC local-ip 172.10.10.2/32 remote-ip 172.10.30.2/32
+      when: inventory_hostname == 'vSRX1'
 
-    - name: IPsec config PE2
+    - name: configure ipsec phase 2 vSRX2
       junipernetworks.junos.junos_config:
         lines:
-          - set security ipsec vpn GRE-VPN bind-interface st0.0
-          - set security ipsec vpn GRE-VPN ike gateway GW-VMX2
-          - set security ipsec vpn GRE-VPN ike ipsec-policy GRE-POL
-          - set security ipsec vpn GRE-VPN traffic-selector GRE-TUNNEL local-ip 10.10.10.1/30 remote-ip 10.10.10.2/30
-      when: inventory_hostname == 'PE2'
-
-    - name: set zones
-      junipernetworks.junos.junos_config:
-        lines:
-          - set security zones security-zone mgmt interfaces ge-0/0/0.0
-          - set security zones security-zone vpn interfaces st0.0
-
-    - name: set policies
-      junipernetworks.junos.junos_config:
-        lines:
-          - set security policies from-zone mgmt to-zone vpn policy gre-out match source-address any destination-address any application any
-          - set security policies from-zone mgmt to-zone vpn policy gre-out then permit
-          - set security policies from-zone vpn to-zone mgmt policy gre-in match source-address any destination-address any application any
-          - set security policies from-zone vpn to-zone mgmt policy gre-in then permit
+          - set security ipsec vpn GRE-IPSEC bind-interface st0
+          - set security ipsec vpn GRE-IPSEC ike gateway GW-IPSEC
+          - set security ipsec vpn GRE-IPSEC ike ipsec-policy IPSEC-POL
+          - set security ipsec vpn GRE-IPSEC traffic-selector GRE-TRAFFIC local-ip 172.10.30.2/32 remote-ip 172.10.10.2/32
+      when: inventory_hostname == 'vSRX2'
