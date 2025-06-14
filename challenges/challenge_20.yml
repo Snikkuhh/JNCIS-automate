@@ -9,16 +9,12 @@
         - name: configure rstp on QFX's
           junipernetworks.junos.junos_config:
             lines:
-              - set protocols rstp interface xe-0/0/0
               - set protocols rstp interface xe-0/0/4
-              - set protocols rstp interface xe-0/0/1
               - set protocols rstp bridge-priority 32768  # of 0 op root
         
         - name: configure bridge domains
           junipernetworks.junos.junos_config:
             lines:
               - set bridge-domains BD10 vlan-id 10
-              - set bridge-domains BD10 interface xe-0/0/0
-              - set bridge-domains BD10 interface xe-0/0/1
               - set bridge-domains BD10 interface xe-0/0/4
   
