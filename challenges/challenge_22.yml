@@ -57,4 +57,4 @@
           - set protocols ospf area 0.0.0.1 nssa default-lsa
           - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
           - set protocols ospf export SUMMARIZE-LOOPBACKS
-      when: inventory_hostname in ['PE1', 'PE2']
+      when: inventory_hostname == 'PE1'
