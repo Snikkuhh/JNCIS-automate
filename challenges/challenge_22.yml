@@ -17,18 +17,46 @@
     - name: configure vQFX1 OSPF area 1
       junipernetworks.junos.junos_config:
         lines:
-          - set routing-options router-id 192.168.100.21
-          - set protocols ospf area 0.0.0.1 interface lo0.10
-          - set protocols ospf area 0.0.0.1 interface lo0.11
-          - set protocols ospf area 0.0.0.1 interface lo0.12
-          - set protocols ospf area 0.0.0.1 interface xe-0/0/0
+          - set routing-options router-id 10.10.10.1
+          - set protocols ospf area 0.0.0.1 interface lo0.0
+          - set protocols ospf area 0.0.0.1 interface xe-0/0/0.0
       when: inventory_hostname == 'vQFX1'
 
     - name: configure PE1 OSPF ABR
       junipernetworks.junos.junos_config:
         lines:
-          - set routing-options router-id 192.168.100.11
-          - set protocols ospf area 0.0.0.0 interface ge-0/0/4
-          - set protocols ospf area 0.0.0.1 interface ge-0/0/2
+          - set routing-options router-id 1.1.1.1
+          - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+          - set protocols ospf area 0.0.0.1 interface ge-0/0/4.0
+          - set protocols ospf area 0.0.0.2 interface ge-0/0/4.0
           - set protocols ospf area 0.0.0.1 area-range 10.10.10.0/24 restrict
       when: inventory_hostname == 'PE1'
+
+    - name: configure PE2 OSPF ABR
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 2.2.2.2
+          - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+          - set protocols ospf area 0.0.0.1 interface ge-0/0/4.0
+          - set protocols ospf area 0.0.0.2 interface ge-0/0/4.0
+      when: inventory_hostname == 'PE2'
+
+    - name: configure vQFX2 ospf
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 10.10.20.1
+          - set interfaces lo0 unit 0 family inet address 10.10.20.1/32
+          - set protocols ospf area 0.0.0.2 interface lo0.0
+          - set protocols ospf area 0.0.0.2 interface xe-0/0/0.0
+      when: inventory_hostname == 'vQFX2'
+
+    - name: configure PE ospf summarization
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols ospf area 0.0.0.1 nssa
+          - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 1 from route-filter 10.10.10.0/24 orlonger
+          - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 1 then accept
+          - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 2 then reject
+          -  set protocols ospf area 0.0.0.1 nssa default-lsa
+          - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+          - set protocols ospf export SUMMARIZE-LOOPBACKS
