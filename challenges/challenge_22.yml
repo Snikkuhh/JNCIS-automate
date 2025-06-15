@@ -28,7 +28,6 @@
           - set routing-options router-id 1.1.1.1
           - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
           - set protocols ospf area 0.0.0.1 interface ge-0/0/4.0
-          - set protocols ospf area 0.0.0.2 interface ge-0/0/4.0
           - set protocols ospf area 0.0.0.1 area-range 10.10.10.0/24 restrict
       when: inventory_hostname == 'PE1'
 
@@ -37,7 +36,6 @@
         lines:
           - set routing-options router-id 2.2.2.2
           - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
-          - set protocols ospf area 0.0.0.1 interface ge-0/0/4.0
           - set protocols ospf area 0.0.0.2 interface ge-0/0/4.0
       when: inventory_hostname == 'PE2'
 
@@ -60,3 +58,4 @@
           -  set protocols ospf area 0.0.0.1 nssa default-lsa
           - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
           - set protocols ospf export SUMMARIZE-LOOPBACKS
+      when: inventory_hostname in ['PE1', 'PE2']
