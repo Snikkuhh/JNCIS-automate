@@ -1,0 +1,34 @@
+---
+- name: Challenge 22 – OSPF Summarization op ABR
+  hosts: all
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: configure vQFX1 loopback interfaces
+      junipernetworks.junos.junos_config:
+        lines:
+          - set interfaces lo0 unit 10 family inet address 10.10.10.1/32
+          - set interfaces lo0 unit 11 family inet address 10.10.11.1/32
+          - set interfaces lo0 unit 12 family inet address 10.10.12.1/32
+      when: inventory_hostname == 'vQFX1'
+
+    - name: configure vQFX1 OSPF area 1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 192.168.100.21
+          - set protocols ospf area 0.0.0.1 interface lo0.10
+          - set protocols ospf area 0.0.0.1 interface lo0.11
+          - set protocols ospf area 0.0.0.1 interface lo0.12
+          - set protocols ospf area 0.0.0.1 interface xe-0/0/0
+      when: inventory_hostname == 'vQFX1'
+
+    - name: configure PE1 OSPF ABR
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options router-id 192.168.100.11
+          - set protocols ospf area 0.0.0.0 interface ge-0/0/4
+          - set protocols ospf area 0.0.0.1 interface ge-0/0/2
+          - set protocols ospf area 0.0.0.1 area-range 10.10.10.0/24 restrict
+      when: inventory_hostname == 'PE1'
