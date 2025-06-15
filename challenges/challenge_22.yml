@@ -55,7 +55,7 @@
           - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 1 from route-filter 10.10.10.0/24 orlonger
           - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 1 then accept
           - set policy-options policy-statement SUMMARIZE-LOOPBACKS term 2 then reject
-          -  set protocols ospf area 0.0.0.1 nssa default-lsa
+          - set protocols ospf area 0.0.0.1 nssa default-lsa
           - set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
           - set protocols ospf export SUMMARIZE-LOOPBACKS
       when: inventory_hostname in ['PE1', 'PE2']
