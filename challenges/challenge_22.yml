@@ -9,9 +9,9 @@
     - name: configure vQFX1 loopback interfaces
       junipernetworks.junos.junos_config:
         lines:
-          - set interfaces lo0 unit 10 family inet address 10.10.10.1/32
-          - set interfaces lo0 unit 11 family inet address 10.10.11.1/32
-          - set interfaces lo0 unit 12 family inet address 10.10.12.1/32
+          - set interfaces lo0 unit 0 family inet address 10.10.10.1/32
+          - set interfaces lo0 unit 0 family inet address 10.10.11.1/32
+          - set interfaces lo0 unit 0 family inet address 10.10.12.1/32
       when: inventory_hostname == 'vQFX1'
 
     - name: configure vQFX1 OSPF area 1
