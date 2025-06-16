@@ -14,3 +14,4 @@
           - set firewall family inet filter COUNT-PINGS term ICMP then accept
           - set firewall family inet filter COUNT-PINGS term DROP-REST then log
           - set firewall family inet filter COUNT-PINGS term DROP-REST then discard
+          - set interfaces xe-0/0/0 unit 0 family inet filter input COUNT-PINGS
