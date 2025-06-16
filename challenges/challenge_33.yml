@@ -1,0 +1,39 @@
+---
+- name: Challenge 33 – Multicast over OSPF + RPF Check
+  hosts: all
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: configure routing-options for multicast
+      junipernetworks.junos.junos_config:
+        lines:
+          - set routing-options multicast
+          - set protocols ospf area 0.0.0.0 interface lo0.0
+
+    - name: configure PIM on QFX's
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols pim interface xe-0/0/0.0 mode sparse
+          - set protocols pim interface lo0.0 mode sparse
+      when: inventory_hostname in groups['vqfx']
+
+    - name: configure PIM on MX's
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols pim interface ge-0/0/0.0 mode sparse
+          - set protocols pim interface lo0.0 mode sparse
+      when: inventory_hostname in groups['vmx']
+
+    - name: configure RP PE1
+      junipernetworks.junos.junos_config:
+        lines:
+          - set protocols pim rp static address 1.1.1.1 group 239.0.0.0/8
+      when: inventory_hostname == 'PE1'
+
+      - name: configure static join on vQFX2
+        junipernetworks.junos.junos_config:
+          lines:
+            - set protocols igmp interface xe-0/0/1.0
+            - set protocols igmp static-group 239.1.1.1
