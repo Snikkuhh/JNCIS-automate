@@ -12,13 +12,6 @@
           - set routing-options multicast
           - set protocols ospf area 0.0.0.0 interface lo0.0
 
-    - name: configure PIM on QFX's
-      junipernetworks.junos.junos_config:
-        lines:
-          - set protocols pim interface xe-0/0/0.0 mode sparse
-          - set protocols pim interface lo0.0 mode sparse
-      when: inventory_hostname in groups['vqfx']
-
     - name: configure PIM on MX's
       junipernetworks.junos.junos_config:
         lines:
