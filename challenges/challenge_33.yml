@@ -22,11 +22,5 @@
     - name: configure RP PE1
       junipernetworks.junos.junos_config:
         lines:
-          - set protocols pim rp static address 1.1.1.1 group 239.0.0.0/8
+          - set protocols pim rp static address 1.1.1.1 group-ranges 239.0.0.0/8
       when: inventory_hostname == 'PE1'
-
-    - name: configure static join on vQFX2
-      junipernetworks.junos.junos_config:
-        lines:
-          - set protocols igmp interface xe-0/0/1.0
-          - set protocols igmp static-group 239.1.1.1

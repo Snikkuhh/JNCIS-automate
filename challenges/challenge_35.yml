@@ -1,0 +1,16 @@
+---
+- name: Challenge 35 – Firewall Filters met Logging + Counters
+  hosts: vQFX1
+  connection: netconf
+  gather_facts: no
+
+  tasks:
+
+    - name: configure firewall filter with logging and counters
+      junipernetworks.junos.junos_config:
+        lines:
+          - set firewall family inet filter COUNT-PINGS term ICMP from protocol icmp
+          - set firewall family inet filter COUNT-PINGS term ICMP then count ICMP-COUNTER
+          - set firewall family inet filter COUNT-PINGS term ICMP then accept
+          - set firewall family inet filter COUNT-PINGS term DROP-REST then log
+          - set firewall family inet filter COUNT-PINGS term DROP-REST then discard
