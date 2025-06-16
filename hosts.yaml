@@ -32,18 +32,3 @@ all:
           ansible_password: lab123
           ansible_network_os: junipernetworks.junos.junos
           ansible_connection: netconf
-
-    vsrx:
-      hosts:
-        vSRX1:
-          ansible_host: 192.168.100.13
-          ansible_user: lab
-          ansible_password: lab123
-          ansible_network_os: junipernetworks.junos.junos
-          ansible_connection: netconf
-        vSRX2:
-          ansible_host: 192.168.100.14
-          ansible_user: lab
-          ansible_password: lab123
-          ansible_network_os: junipernetworks.junos.junos
-          ansible_connection: netconf
